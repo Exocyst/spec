@@ -351,6 +351,20 @@ Note that this bet will be matched against only half of the previous example, be
 
 Once GoldCoins reach a value of 20 or the bet deadline passes, the bet winner gets 99.5% of the money at stake. The other 0.5% goes to the creator of the data stream. 
 
+## Registering Decentralized Datastreams
+A given market can be built on top of a decentralized data stream provider network. Executed orders on this market must be signed by an m-of-n decentralized authority for realization of a given transaction rather than a single approved data stream. There are multiple elements which make up this system:
+### The specialized claiming transaction:
+1. A fee is paid to a total of m nodes, each of which published the condition for realization of the order.
+2. If a given node from m, agrees with the conditions of the claimant, then it signs the claiming transaction with the output going to the claimant; however, if the node disagrees that conditions are met, then the fee is kept by the node but the claiming transaction is not signed.
+### The pool of data stream-nodes:
+1. To activate a data stream node for a given period P, the node operator is required to make a deposit of X MSC in a m-of-n multi-signature txn where:
+	m is equal to the number of decentralized nodes required to publish a node violation claim
+	n is the pool of currently approved decentralized nodes publishing data streams for this market on MP for the entirety of P
+	X = C • P, where C is prescribed cost multiplier and P is period the node registers for.
+2. The node is required to publish data from a prescribed source on the MP protocol for the prescribed period of P 
+3. Each data stream publishing nodes verifies the content of other nodes for potential violation claims:
+4. 	If a violation claim is signed by an appropriate number of nodes, then the node deposit is distributed amongst m consenting nodes with the reporting node receiving a double share of the claim.
+4. If P expires with no violation claims, then the node receives its deposit back.
 
 ## Smart Property
 
