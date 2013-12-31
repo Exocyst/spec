@@ -352,21 +352,18 @@ Note that this bet will be matched against only half of the previous example, be
 Once GoldCoins reach a value of 20 or the bet deadline passes, the bet winner gets 99.5% of the money at stake. The other 0.5% goes to the creator of the data stream. 
 
 ## Registering Decentralized Datastreams
-A given market can be built on top of a decentralized data stream provider network. Executed orders on this market must be signed by an m-of-n decentralized authority for realization of a given transaction rather than a single approved data stream. There are multiple elements which make up this system:
+A given market can be built on top of a decentralized data stream provider network. Registered data stream provider nodes are the arbiters of bets placed on the decentralized data stream:
 
-####The specialized claiming transaction:
-1. A fee is paid to a total of m nodes, each of which published the condition for realization of the transaction.
-2. If a given node from m, agrees with the conditions of the claimant, then it is responsible for signing the claiming transaction with the output going to the claimant; however, if the node disagrees that conditions are met, then the fee is kept by the node but the claiming transaction is not signed.
+####Initiating a decentralized data stream node:
+1. To participate as a data stream node for a given period, **P<sub>reg</sub>**, the node operator is required to make an escrow deposit of **X** MSC to a **m<sub>reg</sub>-of-{n<sub>reg</sub>}** multisig output where: **m<sub>reg</sub>** is equal to the number of decentralized nodes required to publish a node violation claim, **{n<sub>reg</sub>}** is the public addresses of all nodes currently registered to publish data streams for this market for the entirety of **P<sub>reg</sub>**, and **X = C • P<sub>reg</sub>**, where **C** is the prescribed cost multiplier and **P<sub>reg</sub>** is period the node is registering for.
+2. Registered nodes are required to publish data from a prescribed source on the MasterCoin protocol for the registered period, **P<sub>reg</sub>**.
+3. Each data stream publishing nodes verifies the content of other nodes for potential violation claims. If a violation claim is signed by **m<sub>reg</sub>** number of nodes, then the node deposit is distributed amongst the **m<sub>reg</sub>** consenting nodes with the reporting node receiving a double share of the claim. If the registered period, **P<sub>reg</sub>**, expires with no violation claims, then the node receives its escrow deposit back.
 
-####The pool of data stream-nodes:
-1. To activate a data stream node for a given period P, the node operator is required to make a deposit of X MSC in a m-of-n multi-signature txn where:
-	m is equal to the number of decentralized nodes required to publish a node violation claim
-	n is the pool of currently registered decentralized nodes publishing data streams for this market for the entirety of P
-	X = C • P, where C is prescribed cost multiplier and P is period the node registers for.
-2. The node is required to publish data from a prescribed source on the MP protocol for the prescribed period of P 
-3. Each data stream publishing nodes verifies the content of other nodes for potential violation claims:
-4. 	If a violation claim is signed by an appropriate number of nodes, then the node deposit is distributed amongst m consenting nodes with the reporting node receiving a double share of the claim.
-4. If P expires with no violation claims, then the node receives its deposit back.
+####The special case of the claiming transaction:
+1. Upon completion of the period, **P<sub>bet</sub>**, of a bet, 99.5% of the wagered coins are transfered to a multisig m-of-{n} output where: **m<sub>bet</sub>** is equal to the number of decentralized nodes required for a claimaint to realize transaction and **{n<sub>bet</sub>}** is the public addresses of all registered nodes publishing consensus data streams during the length of the bet.
+2. The remaining 0.5% of the funds are distributed to public addresses in **{n<sub>bet</sub>}** as reward for having published a consensus data stream.
+3. The claimant then initiates a transaction of the coins held in the **m<sub>bet</sub>-of-{n<sub>bet</sub>}** multisig output to their MasterCoin address.
+4. If a given node from **{n<sub>bet</sub>}**, agrees with the conditions of the claimant, then it is responsible for signing the claimant's transaction from the multisig output to the claimant's address.
 
 ## Smart Property
 
